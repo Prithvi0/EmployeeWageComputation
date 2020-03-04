@@ -7,10 +7,12 @@ echo "Welcome to Employee Wage Computation"
 WAGE_PER_HOUR=20
 FULL_DAY_HOUR=8
 HALF_DAY_HOUR=4
+WORKING_DAYS_PER_MONTH=20
 
 #VARIABLES
 fullTime=1
 partTime=2
+monthlyWage=0
 
 # Function to check attendence, daily employee wage based on full time and part time
 function FullTimePartTimeEmployeeWage () {
@@ -30,4 +32,10 @@ function FullTimePartTimeEmployeeWage () {
 			;;
 	esac
 }
-FullTimePartTimeEmployeeWage
+
+# Calculating monthly wage
+for (( day=1; day<=$WORKING_DAYS_PER_MONTH; day=$((day+1)) ))
+do
+	FullTimePartTimeEmployeeWage		# Calling the function
+	monthlyWage=$(( $monthlyWage+$dailyWage ))
+done
