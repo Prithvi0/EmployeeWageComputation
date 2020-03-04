@@ -8,11 +8,14 @@ WAGE_PER_HOUR=20
 FULL_DAY_HOUR=8
 HALF_DAY_HOUR=4
 WORKING_DAYS_PER_MONTH=20
+WORKING_HOURS_PER_MONTH=100
 
 #VARIABLES
 fullTime=1
 partTime=2
 monthlyWage=0
+daysWorked=0
+hoursWorked=0
 
 # Function to check attendence, daily employee wage based on full time and part time
 function FullTimePartTimeEmployeeWage () {
@@ -20,22 +23,24 @@ function FullTimePartTimeEmployeeWage () {
 	case $attendence in
 		$fullTime )
 			echo "Employee is Present"
-			dailyWage=$(($FULL_DAY_HOUR*$WAGE_PER_HOUR))
+			empHours=8
 			;;
 		$partTime )
 			echo "Employee is Present"
-      	dailyWage=$(($HALF_DAY_HOUR*$WAGE_PER_HOUR))
+         empHours=4
 			;;
 		* )
 			echo "Employee is Absent"
-			dailyWage=0
+         empHours=0
 			;;
 	esac
+	hoursWorked=$(($hoursWorked+$empHours))
 }
 
-# Calculating monthly wage
-for (( day=1; day<=$WORKING_DAYS_PER_MONTH; day=$((day+1)) ))
+#Calculating Wages till Working days per month or Working hours per month is reached
+while [[ $daysWorked -lt $WORKING_DAYS_PER_MONTH && $hoursWorked -lt $WORKING_HOURS_PER_MONTH ]]
 do
-	FullTimePartTimeEmployeeWage		# Calling the function
-	monthlyWage=$(( $monthlyWage+$dailyWage ))
+   (( daysWorked++ ))
+	FullTimePartTimeEmployeeWage     # Calling the function
 done
+totalWage=$(($hoursWorked*$WAGE_PER_HOUR))
