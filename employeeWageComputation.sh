@@ -11,8 +11,8 @@ WORKING_HOURS_PER_MONTH=100
 #VARIABLES
 fullTime=1
 partTime=2
-daysWorked=0
-hoursWorked=0
+totalWorkingDays=0
+totalWorkingHours=0
 
 # Function to check attendence, daily employee wage based on full time and part time
 function EmployeeWorkHours () {
@@ -32,9 +32,9 @@ function EmployeeWorkHours () {
 }
 
 #Calculating Wages till Working days per month or Working hours per month is reached
-while [[ $daysWorked -lt $WORKING_DAYS_PER_MONTH && $hoursWorked -lt $WORKING_HOURS_PER_MONTH ]]
+while [[ $totalWorkingHours -lt $WORKING_HOURS_PER_MONTH && $totalWorkingDays -lt $WORKING_DAYS_PER_MONTH ]]
 do
-	(( daysWorked++ ))
+	(( totalWorkingDays++ ))
 	workingHours="$(EmployeeWorkHours)"     # Calling the function
 	totalWorkingHours=$(($totalWorkingHours+$workingHours))
 done
